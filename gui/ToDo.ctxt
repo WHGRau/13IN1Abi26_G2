@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=ToDo
+comment1.params=pBeschreibung\ pPrioritaet
+comment1.target=ToDo(java.lang.String,\ int)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ ToDo\r\n
+comment2.params=
+comment2.target=java.lang.String\ getBeschreibung()
+comment3.params=
+comment3.target=int\ getPrioritaet()
+numComments=4

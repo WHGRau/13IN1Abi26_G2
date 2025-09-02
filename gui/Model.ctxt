@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.target=Model
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Model\ here.\r\n\r\n\ @author\ (your\ name)\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=
+comment1.target=Model()
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Model\r\n
+comment2.params=
+comment2.target=gui.List\ getToDoList()
+comment3.params=pBeschreibung
+comment3.target=boolean\ inList(java.lang.String)
+comment4.params=pBeschreibung\ pPrio
+comment4.target=void\ addToDo(java.lang.String,\ int)
+comment5.params=pBeschreibung
+comment5.target=void\ removeToDo(java.lang.String)
+comment6.params=pIndex
+comment6.target=void\ removeToDo(int)
+numComments=7
