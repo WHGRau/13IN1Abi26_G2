@@ -8,13 +8,13 @@ comment10.params=pContent
 comment10.target=void\ append(java.lang.Object)
 comment10.text=\r\n\ Falls\ pContent\ gleich\ null\ ist,\ geschieht\ nichts.<br\ />\r\n\ Ansonsten\ wird\ ein\ neues\ Objekt\ pContent\ am\ Ende\ der\ Liste\ eingefuegt.\r\n\ Das\ aktuelle\ Objekt\ bleibt\ unveraendert.\ <br\ />\r\n\ Wenn\ die\ Liste\ leer\ ist,\ wird\ das\ Objekt\ pContent\ in\ die\ Liste\ eingefuegt\r\n\ und\ es\ gibt\ weiterhin\ kein\ aktuelles\ Objekt\ (hasAccess()\ \=\=\ false).\r\n\ \r\n\ @param\ pContent\r\n\ \ \ \ \ \ \ \ \ \ \ \ das\ anzuhaengende\ Objekt\ vom\ Typ\ ContentType\r\n
 comment11.params=pList
-comment11.target=void\ concat(gui.List)
+comment11.target=void\ concat(List)
 comment11.text=\r\n\ Falls\ es\ sich\ bei\ der\ Liste\ und\ pList\ um\ dasselbe\ Objekt\ handelt,\r\n\ pList\ null\ oder\ eine\ leere\ Liste\ ist,\ geschieht\ nichts.<br\ />\r\n\ Ansonsten\ wird\ die\ Liste\ pList\ an\ die\ aktuelle\ Liste\ angehaengt.\r\n\ Anschliessend\ wird\ pList\ eine\ leere\ Liste.\ Das\ aktuelle\ Objekt\ bleibt\r\n\ unveraendert.\ Insbesondere\ bleibt\ hasAccess\ identisch.\r\n\ \r\n\ @param\ pList\r\n\ \ \ \ \ \ \ \ \ \ \ \ die\ am\ Ende\ anzuhaengende\ Liste\ vom\ Typ\ List<ContentType>\r\n
 comment12.params=
 comment12.target=void\ remove()
 comment12.text=\r\n\ Wenn\ die\ Liste\ leer\ ist\ oder\ es\ kein\ aktuelles\ Objekt\ gibt\ (hasAccess()\r\n\ \=\=\ false),\ geschieht\ nichts.<br\ />\r\n\ Falls\ es\ ein\ aktuelles\ Objekt\ gibt\ (hasAccess()\ \=\=\ true),\ wird\ das\r\n\ aktuelle\ Objekt\ geloescht\ und\ das\ Objekt\ hinter\ dem\ geloeschten\ Objekt\r\n\ wird\ zum\ aktuellen\ Objekt.\ <br\ />\r\n\ Wird\ das\ Objekt,\ das\ am\ Ende\ der\ Liste\ steht,\ geloescht,\ gibt\ es\ kein\r\n\ aktuelles\ Objekt\ mehr.\r\n
 comment13.params=pNode
-comment13.target=gui.List.ListNode\ getPrevious(gui.List.ListNode)
+comment13.target=List.ListNode\ getPrevious(List.ListNode)
 comment13.text=\r\n\ Liefert\ den\ Vorgaengerknoten\ des\ Knotens\ pNode.\ Ist\ die\ Liste\ leer,\ pNode\r\n\ \=\=\ null,\ pNode\ nicht\ in\ der\ Liste\ oder\ pNode\ der\ erste\ Knoten\ der\ Liste,\r\n\ wird\ null\ zurueckgegeben.\r\n\r\n\ @param\ pNode\r\n\ \ \ \ \ \ \ \ \ der\ Knoten,\ dessen\ Vorgaenger\ zurueckgegeben\ werden\ soll\r\n\ @return\ der\ Vorgaenger\ des\ Knotens\ pNode\ oder\ null,\ falls\ die\ Liste\ leer\ ist,\r\n\ \ \ \ \ \ \ \ \ pNode\ \=\=\ null\ ist,\ pNode\ nicht\ in\ der\ Liste\ ist\ oder\ pNode\ der\ erste\ Knoten\r\n\ \ \ \ \ \ \ \ \ der\ Liste\ ist\r\n
 comment2.params=
 comment2.target=boolean\ isEmpty()
