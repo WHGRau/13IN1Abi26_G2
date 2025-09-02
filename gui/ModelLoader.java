@@ -2,10 +2,7 @@ package gui;
 
 
 /**
- * Write a description of class ModelLoader here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * Provides access to a singleton model
  */
 public  class ModelLoader
 {
