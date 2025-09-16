@@ -1,0 +1,167 @@
+{
+  "data": {
+    "11": {
+      "id": 11,
+      "item": [
+        8720835964391264,
+        27685506110103,
+        3773039429676722,
+        1,
+        6407842301978598,
+        7837367853529162,
+        7106216607010411,
+        8675701960391496,
+        405909063363005
+      ],
+      "title": "Zu erledigen"
+    },
+    "12": {
+      "id": 12,
+      "item": [],
+      "title": "In Bearbeitung"
+    },
+    "13": {
+      "id": 13,
+      "item": [],
+      "title": "Erledigt"
+    },
+    "3725391167128554": {
+      "id": 3725391167128554,
+      "item": [
+        3034246399136888,
+        5781804170181125,
+        6006531026087931,
+        5780524974702801,
+        3994630354633987,
+        1430588274452036,
+        961949594944852,
+        2060471380506087,
+        7502521656452711,
+        8788281650972820
+      ],
+      "title": "Backlog"
+    }
+  },
+  "items": {
+    "1": {
+      "body": "Für jedes mögliche SZenario sollten realistische Daten vorhanden sein.\n\nPriorität: 5\n",
+      "color": "color3",
+      "id": 1,
+      "title": "Datenbank mit Beispieldaten füllen"
+    },
+    "27685506110103": {
+      "body": "Ein Nutzer kann sich mit Benutzername und Passwort anmelden.\n\nPriorität: 1",
+      "color": "color3",
+      "id": 27685506110103,
+      "title": "Anmeldeprozess"
+    },
+    "405909063363005": {
+      "body": "Priorität: 15",
+      "color": "color3",
+      "id": 405909063363005,
+      "title": "Registrierungsprozess"
+    },
+    "961949594944852": {
+      "body": "Priorität: 500",
+      "color": "color3",
+      "id": 961949594944852,
+      "title": "Anzeige aller Tische nach Position"
+    },
+    "1430588274452036": {
+      "body": "Priotät: 10000",
+      "color": "color3",
+      "id": 1430588274452036,
+      "title": "Kalender zeigt irreguläre Öffnungszeiten"
+    },
+    "2060471380506087": {
+      "body": "Prioriät: 500",
+      "color": "color3",
+      "id": 2060471380506087,
+      "title": "Automatische Auswahl des besten Tisches"
+    },
+    "3034246399136888": {
+      "body": "",
+      "color": "color3",
+      "id": 3034246399136888,
+      "title": "Nutzer kann bewerten"
+    },
+    "3773039429676722": {
+      "body": "Priorität: 1",
+      "color": "color3",
+      "id": 3773039429676722,
+      "title": "Datenbank erstellen"
+    },
+    "3994630354633987": {
+      "body": "priorität: 2500",
+      "color": "color3",
+      "id": 3994630354633987,
+      "title": "Statistiken für Management"
+    },
+    "5780524974702801": {
+      "body": "Priotät: 300",
+      "color": "color3",
+      "id": 5780524974702801,
+      "title": "Sicherheitsvorkehrung: Hashing"
+    },
+    "5781804170181125": {
+      "body": "Priorität: 20 ",
+      "color": "color3",
+      "id": 5781804170181125,
+      "title": "Reservierung zurückziehen / Löschen"
+    },
+    "6006531026087931": {
+      "body": "Vorher: Hardgecodet\n\nPrioriät: 100",
+      "color": "color3",
+      "id": 6006531026087931,
+      "title": "Nutzer kann Öffnungszeiten sehen"
+    },
+    "6407842301978598": {
+      "body": "Priorität: 5",
+      "color": "color3",
+      "id": 6407842301978598,
+      "title": "Mitarbeiter können sehen, welcher Tisch an bestimmtem Tag reserviert ist"
+    },
+    "7106216607010411": {
+      "body": "Priorität: 6",
+      "color": "color3",
+      "id": 7106216607010411,
+      "title": "Tischreservierung"
+    },
+    "7502521656452711": {
+      "body": "Prioriät: 1000",
+      "color": "color3",
+      "id": 7502521656452711,
+      "title": "Erlauben des Zusammenschiebens von Tischen bei großen Gruppen"
+    },
+    "7837367853529162": {
+      "body": "Priorität: 5",
+      "color": "color3",
+      "id": 7837367853529162,
+      "title": "Nutzer kann Zeitslot auswählen"
+    },
+    "8675701960391496": {
+      "body": "Priorität: 10",
+      "color": "color3",
+      "id": 8675701960391496,
+      "title": "Zugriff auf verschiedene Restaurants "
+    },
+    "8720835964391264": {
+      "body": "Kunde, Mitarbeiter\n\nPriorität: 2",
+      "color": "color3",
+      "id": 8720835964391264,
+      "title": "Trennung zwischen Mitarbeiter und Kunde"
+    },
+    "8788281650972820": {
+      "body": "Priorität: 2000",
+      "color": "color3",
+      "id": 8788281650972820,
+      "title": "Statsistiken/ Balkendiagramme wie Stark das Restaurant gerade besucht ist "
+    }
+  },
+  "list": [
+    3725391167128554,
+    11,
+    12,
+    13
+  ]
+}

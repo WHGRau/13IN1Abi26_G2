@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=Benutzerkonto
+comment0.text=\n\ Beschreiben\ Sie\ hier\ die\ Klasse\ Benutzer.\n\ \n\ @author\ (Ihr\ Name)\ \n\ @version\ (eine\ Versionsnummer\ oder\ ein\ Datum)\n
+comment1.params=nutzername\ email\ passwort\ geburtsdatum\ vorname\ name
+comment1.target=Benutzerkonto(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String)
+comment1.text=\n\ Konstruktor\ f\u00FCr\ Objekte\ der\ Klasse\ Benutzer\n
+numComments=2
