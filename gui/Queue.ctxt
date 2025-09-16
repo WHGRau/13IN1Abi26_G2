@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=Queue
+comment0.text=\r\n\ Die\ generische\ Klasse\ Queue<ContentType>\r\n\ Objekte\ der\ generischen\ Klasse\ Queue\ (Warteschlange)\ verwalten\ beliebige\ \r\n\ Objekte\ vom\ Typ\ ContentType\ nach\ dem\ First-In-First-Out-Prinzip,\ d.h.,\ \r\n\ das\ zuerst\ abgelegte\ Objekt\ wird\ als\ erstes\ wieder\ entnommen.\ \r\n\ Alle\ Methoden\ haben\ eine\ konstante\ Laufzeit,\ unabhaengig\ von\ der\ Anzahl\ \r\n\ der\ verwalteten\ Objekte.\r\n\r\n\ @version\ 2015-06-22\r\n
+comment1.params=
+comment1.target=Queue()
+comment1.text=\r\n\ Eine\ leere\ Schlange\ wird\ erzeugt.\ Objekte,\ die\ in\ dieser\ Schlange\ \r\n\ verwaltet\ werden,\ muessen\ vom\ Typ\ ContentType\ sein.\r\n
+comment2.params=
+comment2.target=boolean\ isEmpty()
+comment2.text=\r\n\ Die\ Anfrage\ liefert\ den\ Wert\ true,\ wenn\ die\ Schlange\ keine\ Objekte\ \r\n\ enthaelt,\ sonst\ liefert\ sie\ den\ Wert\ false.\r\n\r\n\ @return\ true,\ falls\ die\ Schlange\ leer\ ist,\ sonst\ false\r\n
+comment3.params=pContent
+comment3.target=void\ enqueue(java.lang.Object)
+comment3.text=\r\n\ Das\ Objekt\ pContent\ wird\ an\ die\ Schlange\ angehaengt.\ Falls\ \r\n\ pContent\ gleich\ null\ ist,\ bleibt\ die\ Schlange\ unveraendert.\r\n\ \r\n\ @param\ pContent\ das\ anzuhaengende\ Objekt\r\n
+comment4.params=
+comment4.target=void\ dequeue()
+comment4.text=\r\n\ Das\ erste\ Objekt\ wird\ aus\ der\ Schlange\ entfernt.\ Falls\ die\ Schlange\ \r\n\ leer\ ist,\ wird\ sie\ nicht\ veraendert.\ \r\n
+comment5.params=
+comment5.target=java.lang.Object\ front()
+comment5.text=\r\n\ Die\ Anfrage\ liefert\ das\ erste\ Objekt\ der\ Schlange.\ Die\ Schlange\ \r\n\ bleibt\ unveraendert.\ Falls\ die\ Schlange\ leer\ ist,\ wird\ null\ zurueckgegeben.\r\n\ \r\n\ @return\ das\ erste\ Objekt\ der\ Schlange\ oder\ null,\ falls\ \r\n\ die\ Schlange\ leer\ ist.\r\n
+numComments=6
