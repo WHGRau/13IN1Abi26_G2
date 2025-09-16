@@ -1,7 +1,15 @@
 #BlueJ class context
 comment0.target=Gast
-comment0.text=\r\n\ Beschreiben\ Sie\ hier\ die\ Klasse\ Gast.\r\n\ \r\n\ @author\ (Ihr\ Name)\ \r\n\ @version\ (eine\ Versionsnummer\ oder\ ein\ Datum)\r\n
-comment1.params=konto
+comment0.text=\r\n\ Beschreiben\ Sie\ hier\ die\ Klasse\ Gast.\r\n\ \r\n\ @author\ Aghid,\ Jona\ ,\ Yannik\r\n\ @version\ (eine\ Versionsnummer\ oder\ ein\ Datum)\r\n
+comment1.params=pKonto
 comment1.target=Gast(Benutzerkonto)
 comment1.text=\r\n\ Konstruktor\ f\u00FCr\ Objekte\ der\ Klasse\ Gast\r\n
-numComments=2
+comment2.params=
+comment2.target=java.lang.String\ getTelefonnummer()
+comment3.params=telefonnummer
+comment3.target=void\ setTelefonnummer(java.lang.String)
+comment4.params=
+comment4.target=Benutzerkonto\ getKonto()
+comment5.params=konto
+comment5.target=void\ setKonto(Benutzerkonto)
+numComments=6

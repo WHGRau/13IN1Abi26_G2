@@ -4,13 +4,13 @@ package gui;
 /**
  * Beschreiben Sie hier die Klasse LoginHandler.
  * 
- * @author (Ihr Name) 
+ * @author Aghid, Jona , Yannik
  * @version (eine Versionsnummer oder ein Datum)
  */
 public class LoginHandler
 {
     // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
-    private int x;
+ 
 
     /**
      * Konstruktor für Objekte der Klasse LoginHandler
@@ -18,18 +18,12 @@ public class LoginHandler
     public LoginHandler()
     {
         // Instanzvariable initialisieren
-        x = 0;
+       
     }
 
-    /**
-     * Ein Beispiel einer Methode - ersetzen Sie diesen Kommentar mit Ihrem eigenen
-     * 
-     * @param  y    ein Beispielparameter für eine Methode
-     * @return        die Summe aus x und y
-     */
-    public int beispielMethode(int y)
-    {
-        // tragen Sie hier den Code ein
-        return x + y;
+    public Benutzerkonto anmelden(String nameOderEmail, String passwort){
+        return null ; //TODO
     }
+    
+ 
 }

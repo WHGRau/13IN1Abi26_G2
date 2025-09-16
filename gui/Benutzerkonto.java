@@ -4,7 +4,7 @@ package gui;
 /**
  * Beschreiben Sie hier die Klasse Benutzer.
  * 
- * @author (Ihr Name) 
+ * @author Aghid, Jona, Yannik
  * @version (eine Versionsnummer oder ein Datum)
  */
 public class Benutzerkonto
@@ -20,17 +20,40 @@ public class Benutzerkonto
     /**
      * Konstruktor für Objekte der Klasse Benutzer
      */
-    public Benutzerkonto(String nutzername, String email, String passwort, String geburtsdatum, String vorname, String name )
+    public Benutzerkonto(String pNutzername, String pEmail, String pPasswort, String pGeburtsdatum, String pVorname, String pName )
     {
         // Instanzvariable initialisieren
-
+        nutzername = pNutzername;
+        email = pEmail;
+        passwort = pPasswort;
+        geburtsdatum = pGeburtsdatum;
+        vorname = pVorname;
+        name = pName;
     }
 
-    /**
-     * Ein Beispiel einer Methode - ersetzen Sie diesen Kommentar mit Ihrem eigenen
-     * 
-     * @param  y    ein Beispielparameter für eine Methode
-     * @return        die Summe aus x und y
-     */
+ public String getNutzername() {
+    return nutzername;
+}
+
+public String getEmail() {
+    return email;
+}
+
+public String getPasswort() {
+    return passwort;
+}
+
+public String getGeburtsdatum() {
+    return geburtsdatum;
+}
+
+public String getVorname() {
+    return vorname;
+}
+
+public String getName() {
+    return name;
+}
+
 
 }
