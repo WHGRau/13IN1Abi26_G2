@@ -1,4 +1,5 @@
 package gui;
+import java.time.LocalDateTime;
 
 
 /**
@@ -9,27 +10,46 @@ package gui;
  */
 public class Reservierung
 {
-    // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
-    private int x;
+    private int id;
+    private LocalDateTime zeitpunkt;
+    private Tisch tisch;
+    private int personenzahl;
+    private Gast gast;
 
-    /**
-     * Konstruktor für Objekte der Klasse Reservierung
-     */
-    public Reservierung()
+    public Reservierung(LocalDateTime pZeit, Tisch pTisch, int pPersonenzahl, Gast pGast) {
+        this(-1, pZeit, pTisch, pPersonenzahl, pGast);        
+    }
+    
+    public Reservierung(int pId, LocalDateTime pZeit, Tisch pTisch, int pPersonenzahl, Gast pGast)
     {
-        // Instanzvariable initialisieren
-        x = 0;
+        this.id = pId;
+        this.zeitpunkt = pZeit;
+        this.personenzahl = pPersonenzahl;
+        this.gast = pGast;
+    }
+    
+    public void setId(int pId) {
+        id = pId;
+    }
+    
+    public int getId() {
+        return id;
     }
 
-    /**
-     * Ein Beispiel einer Methode - ersetzen Sie diesen Kommentar mit Ihrem eigenen
-     * 
-     * @param  y    ein Beispielparameter für eine Methode
-     * @return        die Summe aus x und y
-     */
-    public int beispielMethode(int y)
-    {
-        // tragen Sie hier den Code ein
-        return x + y;
+    public LocalDateTime getZeitpunkt() {
+        return zeitpunkt;
     }
+
+    public Tisch getTisch() {
+        return tisch;
+    }
+
+    public int getPersonenzahl() {
+        return personenzahl;
+    }
+
+    public Gast getGast() {
+        return gast;
+    }
+
 }

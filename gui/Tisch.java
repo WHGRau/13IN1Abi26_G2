@@ -9,27 +9,34 @@ package gui;
  */
 public class Tisch
 {
-    // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
-    private int x;
+    private int id;
+    private int nummer;
+    private int kapazitaet;
 
-    /**
-     * Konstruktor für Objekte der Klasse Tisch
-     */
-    public Tisch()
+    public Tisch (int pNummer, int pKapazitaet) {
+        this(-1, pNummer, pKapazitaet);
+    }
+    
+    public Tisch(int pId, int pNummer, int pKapazitaet)
     {
-        // Instanzvariable initialisieren
-        x = 0;
+        this.id = pId;
+        this.nummer = pNummer;
+        this.kapazitaet = pKapazitaet;
+    }
+    
+    public void setId(int pId) {
+        id = pId;
+    }
+    
+    public int getId() {
+        return id;
+    }
+    
+    public int getNummer() {
+        return nummer;
     }
 
-    /**
-     * Ein Beispiel einer Methode - ersetzen Sie diesen Kommentar mit Ihrem eigenen
-     * 
-     * @param  y    ein Beispielparameter für eine Methode
-     * @return        die Summe aus x und y
-     */
-    public int beispielMethode(int y)
-    {
-        // tragen Sie hier den Code ein
-        return x + y;
+    public int getKapazitaet() {
+        return kapazitaet;
     }
 }
