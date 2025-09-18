@@ -41,6 +41,7 @@ public class DatabaseConnector{
 
     } catch (Exception e) {
       message = e.getMessage();
+      e.printStackTrace();
     }
   }
 

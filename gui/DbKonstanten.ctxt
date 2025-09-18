@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.target=DbKonstanten
+comment0.text=\r\n\ Diese\ Klasse\ enth\u00E4lt\ alle\ Konstanten,\ die\ in\ Verbindung\r\n\ zu\ den\ Tabellen\ der\ Datenbank\ stehen.\ F\u00FCr\ einfache\ zuk\u00FCnftige\r\n\ \u00C4nderungen\ sollten\ Tabellennamen\ o.\u00C4.\ ausschlie\u00DFlich\ \u00FCber\r\n\ die\ Konstanten\ in\ dieser\ Klasse\ abgerufen\ werden.\r\n
+comment1.params=
+comment1.target=DbKonstanten()
+numComments=2

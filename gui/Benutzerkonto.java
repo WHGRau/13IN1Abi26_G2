@@ -30,30 +30,38 @@ public class Benutzerkonto
         vorname = pVorname;
         name = pName;
     }
+    
+    public Benutzerkonto() {}
 
- public String getNutzername() {
-    return nutzername;
-}
+     public String getNutzername() {
+        return nutzername;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    public String getPasswort() {
+        return passwort;
+    }
+    
+    public String getGeburtsdatum() {
+        return geburtsdatum;
+    }
+    
+    public String getVorname() {
+        return vorname;
+    }
+    
+    public String getName() {
+        return name;
+    }
 
-public String getEmail() {
-    return email;
-}
-
-public String getPasswort() {
-    return passwort;
-}
-
-public String getGeburtsdatum() {
-    return geburtsdatum;
-}
-
-public String getVorname() {
-    return vorname;
-}
-
-public String getName() {
-    return name;
-}
-
+    public void setNutzername(String nutzername) { this.nutzername = nutzername; }
+    public void setEmail(String email) { this.email = email; }
+    public void setPasswort(String passwort) { this.passwort = passwort; }
+    public void setGeburtsdatum(String geburtsdatum) { this.geburtsdatum = geburtsdatum; }
+    public void setVorname(String vorname) { this.vorname = vorname; }
+    public void setName(String name) { this.name = name; }
 
 }
