@@ -10,4 +10,6 @@ comment3.params=qr
 comment3.target=java.util.List\ queryResultToBenutzerkonten(QueryResult)
 comment4.params=row\ idx
 comment4.target=java.lang.String\ getFromRow(java.lang.String[],\ int)
-numComments=5
+comment5.params=
+comment5.target=Benutzerkonto\ angemeldetAls()
+numComments=6

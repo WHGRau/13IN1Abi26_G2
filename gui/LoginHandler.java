@@ -11,8 +11,7 @@ import java.util.List;
  */
 public class LoginHandler
 {
-    // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
- 
+    private static Benutzerkonto angemeldetesKonto;
 
     /**
      * Konstruktor für Objekte der Klasse LoginHandler
@@ -40,7 +39,8 @@ public class LoginHandler
             System.out.println(db.getErrorMessage());
             return null;
         }
-        return queryResultToBenutzerkonten(ergebnis).get(0);
+        angemeldetesKonto = queryResultToBenutzerkonten(ergebnis).get(0);
+        return angemeldetesKonto;
     }
     
     public static List<Benutzerkonto> queryResultToBenutzerkonten(QueryResult qr) {
@@ -93,6 +93,10 @@ public class LoginHandler
     private static String getFromRow(String[] row, int idx) {
         if (idx < 0 || row == null || idx >= row.length) return null;
         return row[idx];
+    }
+    
+    public Benutzerkonto angemeldetAls() {
+        return angemeldetesKonto;
     }
  
 }
