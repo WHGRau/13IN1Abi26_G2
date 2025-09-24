@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Restaurant
-comment0.text=\r\n\ Beschreiben\ Sie\ hier\ die\ Klasse\ Restaurant.\r\n\ \r\n\ @author\ (Ihr\ Name)\ \r\n\ @version\ (eine\ Versionsnummer\ oder\ ein\ Datum)\r\n
+comment0.text=\n\ Beschreiben\ Sie\ hier\ die\ Klasse\ Restaurant.\n\ \n\ @author\ (Ihr\ Name)\ \n\ @version\ (eine\ Versionsnummer\ oder\ ein\ Datum)\n
 comment1.params=
 comment1.target=Restaurant()
 comment2.params=name
@@ -9,4 +9,9 @@ comment3.params=reservierung
 comment3.target=void\ reserviere(Reservierung)
 comment4.params=
 comment4.target=java.lang.String\ getName()
-numComments=5
+comment5.params=gastName\ slot
+comment5.target=boolean\ reserviereZeitSlot(java.lang.String,\ java.lang.String)
+comment5.text=\n\ Reserviert\ einen\ Zeit-Slot\ zwischen\ 17\:00\ und\ 21\:30\ in\ 30\ Minuten\ Schritten\n\ @param\ gastName\ Name\ des\ Gastes\n\ @param\ slot\ \ \ Zeit-Slot\ (z.B.\ "17\:00",\ "17\:30",\ ...,\ "21\:30")\n\ @return\ true\ wenn\ erfolgreich\ ,false\ wenn\ ung\u00FCltig\ oder\ belegt\ \n
+comment6.params=
+comment6.target=java.util.List\ getFreieSlots()
+numComments=7
