@@ -34,10 +34,12 @@ public class DatabaseConnector{
   public DatabaseConnector(String pIP, int pPort, String pDatabase, String pUsername, String pPassword){
     try {
       //Laden der Treiberklasse
-      Class.forName("com.mysql.jdbc.Driver");
+      Class.forName("com.mysql.cj.jdbc.Driver");
 
       //Verbindung herstellen
-      connection = DriverManager.getConnection("jdbc:mysql://"+pIP+":"+pPort+"/"+pDatabase, pUsername, pPassword);
+      String url = "jdbc:mysql://" + pIP + ":" + pPort + "/" + pDatabase +
+             "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+      connection = DriverManager.getConnection(url, pUsername, pPassword);
 
     } catch (Exception e) {
       message = e.getMessage();

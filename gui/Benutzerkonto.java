@@ -16,6 +16,7 @@ public class Benutzerkonto
     private String geburtsdatum;
     private String vorname;
     private String name;
+    private int id;
 
     /**
      * Konstruktor für Objekte der Klasse Benutzer
@@ -56,6 +57,10 @@ public class Benutzerkonto
     public String getName() {
         return name;
     }
+    
+    public int getId() {
+        return id;
+    }
 
     public void setNutzername(String nutzername) { this.nutzername = nutzername; }
     public void setEmail(String email) { this.email = email; }
@@ -63,5 +68,6 @@ public class Benutzerkonto
     public void setGeburtsdatum(String geburtsdatum) { this.geburtsdatum = geburtsdatum; }
     public void setVorname(String vorname) { this.vorname = vorname; }
     public void setName(String name) { this.name = name; }
+    public void setId(int id) {this.id = id;}
 
 }

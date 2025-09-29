@@ -23,7 +23,7 @@ public class LoginHandler
     }
 
     public Benutzerkonto anmelden(String nameOderEmail, String passwort){
-        DatabaseConnector db = new DatabaseConnector("localhost", 3306, DbKonstanten.DB_RESTAURANT, "root", "");
+        DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
         System.out.println(db.getErrorMessage());
         db.executeStatement(String.format(
             """
@@ -35,7 +35,8 @@ public class LoginHandler
             nameOderEmail, nameOderEmail, passwort)
         );
         QueryResult ergebnis = db.getCurrentQueryResult();
-        if (ergebnis == null) {
+        System.out.println(ergebnis);
+        if (ergebnis == null || ergebnis.getRowCount() == 0) {
             System.out.println(db.getErrorMessage());
             return null;
         }
@@ -57,7 +58,8 @@ public class LoginHandler
         int idxVorname = -1;
         int idxNachname = -1;
         int idxGeburtsdatum = -1;
-
+        int idxId = -1;
+        
         // Bestimmung der indizes
         for (int i = 0; i < columnNames.length; i++) {
             String col = columnNames[i];
@@ -69,6 +71,7 @@ public class LoginHandler
                 case "vorname": idxVorname = i; break;
                 case "nachname": idxNachname = i; break;
                 case "geburtsdatum": idxGeburtsdatum = i; break;
+                case "id": idxId = i; break;
                 default: break;
             }
         }
@@ -91,11 +94,11 @@ public class LoginHandler
     }
     
     private static String getFromRow(String[] row, int idx) {
-        if (idx < 0 || row == null || idx >= row.length) return null;
+        if (row == null) return null;
         return row[idx];
     }
     
-    public Benutzerkonto angemeldetAls() {
+    public static Benutzerkonto angemeldetAls() {
         return angemeldetesKonto;
     }
  
