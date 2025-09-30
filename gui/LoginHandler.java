@@ -44,6 +44,22 @@ public class LoginHandler
         return angemeldetesKonto;
     }
     
+    public Benutzerkonto registrieren(String nutzername, String email, String passwort){
+        DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
+        System.out.println(db.getErrorMessage());
+        db.executeStatement(String.format(
+            """
+            INSERT INTO benutzer 
+                (nutzername, passwort, email, vorname, nachname, geburtsdatum)
+            VALUES
+                ('%s', '%s', '%s', NULL, NULL, NULL)
+            """,
+            nutzername, passwort, email)
+        );
+        System.out.println(db.getErrorMessage());
+        return anmelden(nutzername, passwort);
+    }
+    
     public static List<Benutzerkonto> queryResultToBenutzerkonten(QueryResult qr) {
         java.util.List<Benutzerkonto> result = new ArrayList<Benutzerkonto>();
         if (qr == null) return result;
@@ -86,6 +102,7 @@ public class LoginHandler
             b.setVorname(getFromRow(row, idxVorname));
             b.setName(getFromRow(row, idxNachname));
             b.setGeburtsdatum(getFromRow(row, idxGeburtsdatum));
+            b.setId(Integer.parseInt(getFromRow(row, idxId)));
 
             result.add(b);
         }
