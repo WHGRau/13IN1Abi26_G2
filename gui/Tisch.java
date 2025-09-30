@@ -13,6 +13,8 @@ public class Tisch
     private int nummer;
     private int kapazitaet;
 
+    public Tisch() {}
+    
     public Tisch (int pNummer, int pKapazitaet) {
         this(-1, pNummer, pKapazitaet);
     }
@@ -39,4 +41,13 @@ public class Tisch
     public int getKapazitaet() {
         return kapazitaet;
     }
+    
+    public void setNummer(int pNummer) {
+        nummer = pNummer;
+    }
+    
+    public void setKapazitaet(int pKapazitaet) {
+        kapazitaet = pKapazitaet;
+    }
+    
 }
