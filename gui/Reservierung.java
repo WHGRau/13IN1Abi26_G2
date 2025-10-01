@@ -15,6 +15,8 @@ public class Reservierung
     private Tisch tisch;
     private int personenzahl;
     private Gast gast;
+    
+    public Reservierung() {}
 
     public Reservierung(LocalDateTime pZeit, Tisch pTisch, int pPersonenzahl, Gast pGast) {
         this(-1, pZeit, pTisch, pPersonenzahl, pGast);        
@@ -50,6 +52,30 @@ public class Reservierung
 
     public Gast getGast() {
         return gast;
+    }
+    
+    public void setZeitpunkt(LocalDateTime zeitpunkt) {
+        this.zeitpunkt = zeitpunkt;
+    }
+    
+    public void setTisch(Tisch tisch) {
+        this.tisch = tisch;
+    }
+    
+    public void setPersonenzahl(int personenzahl) {
+        this.personenzahl = personenzahl;
+    }
+    
+    public void setGast(Gast gast) {
+        this.gast = gast;
+    }
+    
+    public void setGast(int gastId) {
+        
+    }
+    
+    public void setTisch(int tischId) {
+        
     }
 
 }
