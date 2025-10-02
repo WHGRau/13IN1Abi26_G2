@@ -30,7 +30,7 @@ public class Restaurant
     public String getNachnameVonBenutzerkonto(int gastId) {
         DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
         db.executeStatement(String.format(
-            "SELECT nachname FROM benutzerkonto WHERE id = %d;", gastId
+            "SELECT nachname FROM benutzer WHERE id = %d;", gastId
         ));
         QueryResult qr = db.getCurrentQueryResult();
         if (qr != null && qr.getRowCount() > 0) {
@@ -52,23 +52,23 @@ public class Restaurant
             String uhrzeit = r.getZeitpunkt().format(zeitFormatter);
 
             int tischNummer = -1;
-            if (r.getTisch() != null) {
-                tischNummer = r.getTisch().getNummer();
-            } else if (r.getTischId() != -1) {
+            if (r.getTisch() != -1) {
+                tischNummer = r.getTisch();
+            } else if (r.getTisch() != -1) {
                 // Optional: Hole die Tischnummer aus der Tabelle TISCH, falls nötig
                 DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
                 db.executeStatement(String.format(
-                    "SELECT nummer FROM tisch WHERE id = %d;", r.getTischId()
+                    "SELECT nummer FROM tisch WHERE id = %d;", r.getTisch()
                 ));
                 QueryResult qr = db.getCurrentQueryResult();
                 if (qr != null && qr.getRowCount() > 0 && qr.getData() != null && qr.getData().length > 0 && qr.getData()[0].length > 0) {
                     try {
                         tischNummer = Integer.parseInt(qr.getData()[0][0]);
                     } catch (NumberFormatException e) {
-                        tischNummer = r.getTischId(); // Fallback
+                        tischNummer = r.getTisch(); // Fallback
                     }
                 } else {
-                    tischNummer = r.getTischId(); // Fallback
+                    tischNummer = r.getTisch(); // Fallback
                 }
             }
 
@@ -112,7 +112,7 @@ public class Restaurant
         }
         int gastId = LoginHandler.angemeldetAls().getId();
         int personenzahl = reservierung.getPersonenzahl();
-        int tischId = reservierung.getTisch().getId();
+        int tischId = reservierung.getTisch();
         LocalDateTime zeitpunkt = reservierung.getZeitpunkt();
         String zeitpunktString = zeitpunkt.toString();
         
@@ -177,10 +177,10 @@ public class Restaurant
             """
             SELECT * 
             FROM reservierung
-            WHERE tischId = 0
+            WHERE tischId = %d
             	AND '%s' > zeitpunkt 
                 AND '%s' < ADDTIME(zeitpunkt, '4:00:00');
-            """, zeitpunktString, zeitpunktString
+            """, tischId, zeitpunktString, zeitpunktString
         ));
         
         if (db.getErrorMessage() != null) {
@@ -342,7 +342,6 @@ public class Restaurant
             "21:00", "21:30"
         );
         List<String> frei = new ArrayList<>(erlaubteSlots);
-        frei.removeAll(reservierteSlots);
         return frei;
     }
 
