@@ -25,6 +25,15 @@ public class Restaurant
         this.name = name;
          this.reservierteSlots = new ArrayList<>();
     }
+
+    public boolean reserviere(int personenzahl, String zeitpunktString) {
+        if (LoginHandler.angemeldetAls() == null) {
+            System.out.println("Nicht angemeldet");
+            return false;
+        }
+        int gastId = LoginHandler.angemeldetAls().getId();
+        return reserviere(gastId, personenzahl, zeitpunktString);
+    }
     
     public boolean reserviere(int gastId, int personenzahl, String zeitpunktString) {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
