@@ -26,6 +26,56 @@ public class Restaurant
          this.reservierteSlots = new ArrayList<>();
     }
 
+        // Holt den Nachnamen aus der Tabelle benutzerkonto anhand der gastId
+    public String getNachnameVonBenutzerkonto(int gastId) {
+        DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
+        db.executeStatement(String.format(
+            "SELECT nachname FROM benutzerkonto WHERE id = %d;", gastId
+        ));
+        QueryResult qr = db.getCurrentQueryResult();
+        if (qr != null && qr.getRowCount() > 0) {
+            String[][] data = qr.getData();
+            if (data != null && data.length > 0 && data[0].length > 0) {
+                return data[0][0];
+            }
+        }
+        return "Unbekannt";
+    }
+
+    // Gibt alle Reservierungen eines Tages im Format Nachname: Uhrzeit, Tisch aus
+    public void printReservierungenAnTag(String tag) {
+        List<Reservierung> reservierungen = getReservierungenAnTag(tag);
+        DateTimeFormatter zeitFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        for (Reservierung r : reservierungen) {
+            String nachname = getNachnameVonBenutzerkonto(r.getGastId());
+            String uhrzeit = r.getZeitpunkt().format(zeitFormatter);
+
+            int tischNummer = -1;
+            if (r.getTisch() != null) {
+                tischNummer = r.getTisch().getNummer();
+            } else if (r.getTischId() != -1) {
+                // Optional: Hole die Tischnummer aus der Tabelle TISCH, falls nötig
+                DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
+                db.executeStatement(String.format(
+                    "SELECT nummer FROM tisch WHERE id = %d;", r.getTischId()
+                ));
+                QueryResult qr = db.getCurrentQueryResult();
+                if (qr != null && qr.getRowCount() > 0 && qr.getData() != null && qr.getData().length > 0 && qr.getData()[0].length > 0) {
+                    try {
+                        tischNummer = Integer.parseInt(qr.getData()[0][0]);
+                    } catch (NumberFormatException e) {
+                        tischNummer = r.getTischId(); // Fallback
+                    }
+                } else {
+                    tischNummer = r.getTischId(); // Fallback
+                }
+            }
+
+            System.out.println(nachname + ": " + uhrzeit + ", Tisch " + tischNummer);
+        }
+    }
+
     public boolean reserviere(int personenzahl, String zeitpunktString) {
         if (LoginHandler.angemeldetAls() == null) {
             System.out.println("Nicht angemeldet");
