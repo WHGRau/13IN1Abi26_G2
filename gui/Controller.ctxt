@@ -2,6 +2,8 @@
 comment0.target=Controller
 comment1.params=
 comment1.target=Controller()
+comment10.params=event
+comment10.target=void\ switchtoScene4(javafx.event.ActionEvent)
 comment2.params=
 comment2.target=void\ initialize()
 comment3.params=event
@@ -16,4 +18,6 @@ comment7.params=event
 comment7.target=void\ switchtoScene1(javafx.event.ActionEvent)
 comment8.params=event
 comment8.target=void\ switchtoScene2(javafx.event.ActionEvent)
-numComments=9
+comment9.params=event
+comment9.target=void\ switchtoScene3(javafx.event.ActionEvent)
+numComments=11

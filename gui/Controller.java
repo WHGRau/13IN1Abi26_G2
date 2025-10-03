@@ -59,6 +59,7 @@ public class Controller {
      */
     @FXML
     private Button buttonScene2;
+    
      
 
     
@@ -117,7 +118,7 @@ public class Controller {
 
     @FXML
     public void switchtoScene1(ActionEvent event) throws IOException{      
-        Parent root = FXMLLoader.load(getClass().getResource("scenes/scene1.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("scenes/scene4.fxml"));
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -133,6 +134,25 @@ public class Controller {
         stage.setScene(scene);
         stage.show();
     }     
+    
+    @FXML
+    public void switchtoScene3(ActionEvent event) throws IOException {
+    Parent root = FXMLLoader.load(getClass().getResource("scenes/scene3.fxml"));
+    Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    Scene scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
+    }
+
+    @FXML
+    public void switchtoScene4(ActionEvent event) throws IOException {
+    Parent root = FXMLLoader.load(getClass().getResource("scenes/scene4.fxml"));
+    Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    Scene scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
+    }
+    
     
 }
 
