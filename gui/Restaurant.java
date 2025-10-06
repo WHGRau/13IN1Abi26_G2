@@ -162,5 +162,21 @@ public class Restaurant
         frei.removeAll(reservierteSlots);
         return frei;
     }
+public String getOeffnungszeitenAlleTage() { 
+    DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
+    db.executeStatement("SELECT wochentag, oeffnet, schliesst FROM oeffnungszeiten ORDER BY FIELD(wochentag, 'Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag');");
+    QueryResult qr = db.getCurrentQueryResult();
+    if ( qr == null || qr.getRowCount() == 0) {
+        return "Keine Öffnungszeiten gefunden. " ;
+    }
+    StringBuilder sb = new StringBuilder();
+    String [][] data = qr.getData();
 
+    for (String[] row: data) {
+        String tag = row[0];
+        String oeffnet = row[1].substring(0, 5);
+        String schliesst = row[2].substring(0, 5);
+        sb.append(String.format("%s: %s - %s Uhr%n", tag, oeffnet, schliesst));
+    }
+    return sb.toString();
 }
