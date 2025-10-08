@@ -84,7 +84,7 @@ public class LoginHandler
             INSERT INTO benutzer 
                 (nutzername, passwort, email, vorname, nachname, geburtsdatum, salt)
             VALUES
-                ('%s', '%s', '%s', NULL, NULL, NULL, '%s)
+                ('%s', '%s', '%s', NULL, NULL, NULL, '%s')
             """,
             nutzername, passwortHash, email, salt)
         );
