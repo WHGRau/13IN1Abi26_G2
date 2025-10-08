@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.target=HashGenerator
+comment1.params=
+comment1.target=HashGenerator()
+comment2.params=klartext\ salt
+comment2.target=java.lang.String\ erzeugeSHA256Hash(java.lang.String,\ java.lang.String)
+comment3.params=klartext
+comment3.target=java.lang.String\ erzeugeSHA256Hash(java.lang.String)
+comment4.params=hash
+comment4.target=java.lang.String\ bytesToHex(byte[])
+comment5.params=
+comment5.target=java.lang.String\ erzeugeSalt()
+comment6.params=
+comment6.target=java.lang.String\ getSalt()
+comment7.params=
+comment7.target=java.lang.String\ getErgebnis()
+numComments=8

@@ -25,16 +25,42 @@ public class LoginHandler
     public Benutzerkonto anmelden(String nameOderEmail, String passwort){
         DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
         System.out.println(db.getErrorMessage());
+        
+        db.executeStatement(String.format(
+            """
+            SELECT id, passwort, salt
+            FROM benutzer
+            WHERE (nutzername = '%s' OR email = '%s') 
+            """, nameOderEmail, nameOderEmail
+            )
+        );
+        QueryResult ergebnis = db.getCurrentQueryResult();
+        if (ergebnis == null || ergebnis.getRowCount() == 0) {
+            System.out.println("Anmeldedaten falsch");
+            return null;
+        }
+        String id = ergebnis.getData()[0][0];
+        String passwortHashDB = ergebnis.getData()[0][1];
+        String salt = ergebnis.getData()[0][2];
+        
+        HashGenerator hasher = new HashGenerator();
+        hasher.erzeugeSHA256Hash(passwort, salt);
+        
+        //Überprüfung, ob der gespeicherte Hash mit dem des eingegebenen Passworts übereinstimmt
+        if (!hasher.getErgebnis().equals(passwortHashDB)) {
+            System.out.println("Passwort falsch!");
+            return null;
+        }
+        
         db.executeStatement(String.format(
             """
             SELECT * 
             FROM benutzer 
-            WHERE (nutzername = '%s' OR email = '%s') 
-                AND passwort = '%s';
+            WHERE id = '%s'
             """,
-            nameOderEmail, nameOderEmail, passwort)
+            id)
         );
-        QueryResult ergebnis = db.getCurrentQueryResult();
+        ergebnis = db.getCurrentQueryResult();
         System.out.println(ergebnis);
         if (ergebnis == null || ergebnis.getRowCount() == 0) {
             System.out.println(db.getErrorMessage());
@@ -46,15 +72,21 @@ public class LoginHandler
     
     public Benutzerkonto registrieren(String nutzername, String email, String passwort){
         DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
+        
+        HashGenerator hasher = new HashGenerator();
+        hasher.erzeugeSHA256Hash(passwort);
+        String passwortHash = hasher.getErgebnis();
+        String salt         = hasher.getSalt();
+        
         System.out.println(db.getErrorMessage());
         db.executeStatement(String.format(
             """
             INSERT INTO benutzer 
-                (nutzername, passwort, email, vorname, nachname, geburtsdatum)
+                (nutzername, passwort, email, vorname, nachname, geburtsdatum, salt)
             VALUES
-                ('%s', '%s', '%s', NULL, NULL, NULL)
+                ('%s', '%s', '%s', NULL, NULL, NULL, '%s)
             """,
-            nutzername, passwort, email)
+            nutzername, passwortHash, email, salt)
         );
         System.out.println(db.getErrorMessage());
         return anmelden(nutzername, passwort);

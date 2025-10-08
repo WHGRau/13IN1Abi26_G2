@@ -12,20 +12,22 @@ public class Reservierung
 {
     private int id;
     private LocalDateTime zeitpunkt;
-    private Tisch tisch;
+    private int tisch;
     private int personenzahl;
-    private Gast gast;
+    private int gastId;
+    
+    public Reservierung() {}
 
-    public Reservierung(LocalDateTime pZeit, Tisch pTisch, int pPersonenzahl, Gast pGast) {
-        this(-1, pZeit, pTisch, pPersonenzahl, pGast);        
+    public Reservierung(LocalDateTime pZeit, int pInt, int pPersonenzahl, int pGast) {
+        this(-1, pZeit, pInt, pPersonenzahl, pGast);        
     }
     
-    public Reservierung(int pId, LocalDateTime pZeit, Tisch pTisch, int pPersonenzahl, Gast pGast)
+    public Reservierung(int pId, LocalDateTime pZeit, int pInt, int pPersonenzahl, int pGast)
     {
         this.id = pId;
         this.zeitpunkt = pZeit;
         this.personenzahl = pPersonenzahl;
-        this.gast = pGast;
+        this.gastId = pGast;
     }
     
     public void setId(int pId) {
@@ -40,7 +42,7 @@ public class Reservierung
         return zeitpunkt;
     }
 
-    public Tisch getTisch() {
+    public int getInt() {
         return tisch;
     }
 
@@ -48,8 +50,29 @@ public class Reservierung
         return personenzahl;
     }
 
-    public Gast getGast() {
-        return gast;
+    public int getGastId() {
+        return gastId;
     }
+    
+    public void setZeitpunkt(LocalDateTime zeitpunkt) {
+        this.zeitpunkt = zeitpunkt;
+    }
+    
+    public void setTisch(int tisch) {
+        this.tisch = tisch;
+    }
+    
+    public void setPersonenzahl(int personenzahl) {
+        this.personenzahl = personenzahl;
+    }
+    
+    public void setGast(int gast) {
+        this.gastId = gast;
+    }
+    
+    public int getTisch() {
+        return tisch;
+    }
+    
 
 }
