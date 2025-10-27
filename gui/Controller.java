@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
 import java.io.IOException;
+import javafx.scene.control.Label;
 
 // Imports für GUI Komponenten
 import javafx.fxml.FXML;
@@ -29,7 +30,7 @@ import javafx.stage.Stage;
 public class Controller {
     
     /* ------------------------------
-     * Elemente der Scene1  
+     * Scene1 (Anmeldung)
      * ------------------------------
      */
     @FXML
@@ -45,21 +46,16 @@ public class Controller {
     private Button button1;
 
     @FXML
-    private TextField textField1;
+    private TextField textFieldBenutzername;
 
     @FXML
-    private TextField textField2;
+    private TextField textFieldPasswort;
     
     @FXML
     private Button buttonScene1;
-   
-    /* ------------------------------
-     * Elemente der Scene2  
-     * ------------------------------
-     */
+    
     @FXML
-    private Button buttonScene2;
-     
+    private Label anmeldenInfoFeld;
 
     
     // Verbindung vom Controller zum Model   
@@ -78,16 +74,6 @@ public class Controller {
             prioColumn.setCellValueFactory(new PropertyValueFactory<ToDo, Integer>("prioritaet"));
             tabelViewRefresh();
         }
-    }
-
-    @FXML
-    void addToDo(ActionEvent event) {
-        
-        String beschreibung = textField1.getText();
-        int    prio         = Integer.parseInt(textField2.getText()); 
-        model.addToDo(beschreibung, prio);
-      
-        tabelViewRefresh();       
     }
     
     // Hilfsmethode für die Tableview
@@ -114,6 +100,55 @@ public class Controller {
         model.removeToDo(selectedID);
         tabelViewRefresh();
     }
+    
+    public void switchToScene(ActionEvent event, String sceneName) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("scenes/" + sceneName +".fxml"));
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+            initialize();
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+    
+    @FXML
+    public void anmeldenButtonGedrueckt(ActionEvent event) {
+        System.out.println("VERSCUUCH");
+        String benutzername = textFieldBenutzername.getText();
+        String passwort = textFieldPasswort.getText();
+        LoginHandler.anmelden(benutzername, passwort);
+        if (LoginHandler.istAngemeldet()) {
+            switchToScene(event, "start");
+        }
+        else {
+            anmeldenInfoFeld.setText("Anmeldedaten falsch. Bitte erneut versuchen.");
+        }
+    }
+    
+    @FXML
+    public void registrierenButtonGedrueckt(ActionEvent event) {
+        switchToScene(event, "scene2");
+    }
+    
+    /* -----------------------
+     * SCENE2 (Resgistrierung)
+     * -----------------------
+     */
+    
+    @FXML
+    private TextField nameFeld2;
+    
+    @FXML
+    private TextField mailFeld2;
+    
+    @FXML
+    private TextField passwortFeld2;
+    
+    @FXML
+    public void registrierenButtonGedrueckt2(ActionEvent event) {
+        LoginHandler.registrieren(nameFeld2.getText(), mailFeld2.getText(), passwortFeld2.getText());
+    }
 
     @FXML
     public void switchtoScene1(ActionEvent event) throws IOException{      
@@ -123,16 +158,7 @@ public class Controller {
         stage.setScene(scene);
         stage.show();
         initialize();
-    }
-    
-    @FXML
-    public void switchtoScene2(ActionEvent event) throws IOException{
-        Parent root = FXMLLoader.load(getClass().getResource("scenes/scene2.fxml"));
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }     
+    }  
     
 }
 

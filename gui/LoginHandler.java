@@ -22,7 +22,7 @@ public class LoginHandler
        
     }
 
-    public Benutzerkonto anmelden(String nameOderEmail, String passwort){
+    public static Benutzerkonto anmelden(String nameOderEmail, String passwort){
         DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
         System.out.println(db.getErrorMessage());
         db.executeStatement(String.format(
@@ -44,7 +44,7 @@ public class LoginHandler
         return angemeldetesKonto;
     }
     
-    public Benutzerkonto registrieren(String nutzername, String email, String passwort){
+    public static Benutzerkonto registrieren(String nutzername, String email, String passwort){
         DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
         System.out.println(db.getErrorMessage());
         db.executeStatement(String.format(
@@ -117,6 +117,10 @@ public class LoginHandler
     
     public static Benutzerkonto angemeldetAls() {
         return angemeldetesKonto;
+    }
+    
+    public static boolean istAngemeldet() {
+        return angemeldetesKonto != null;
     }
  
 }
