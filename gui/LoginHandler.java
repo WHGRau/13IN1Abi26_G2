@@ -70,7 +70,7 @@ public class LoginHandler
         return angemeldetesKonto;
     }
     
-    public static Benutzerkonto registrieren(String nutzername, String email, String passwort){
+    public static Benutzerkonto registrieren(String nutzername, String email, String passwort, String vorname, String nachname){
         DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
         
         HashGenerator hasher = new HashGenerator();
@@ -84,9 +84,9 @@ public class LoginHandler
             INSERT INTO benutzer 
                 (nutzername, passwort, email, vorname, nachname, geburtsdatum, salt)
             VALUES
-                ('%s', '%s', '%s', NULL, NULL, NULL, '%s')
+                ('%s', '%s', '%s', '%s', '%s', NULL, '%s')
             """,
-            nutzername, passwortHash, email, salt)
+            nutzername, passwortHash, email, vorname, nachname, salt)
         );
         System.out.println(db.getErrorMessage());
         return anmelden(nutzername, passwort);

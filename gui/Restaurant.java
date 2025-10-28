@@ -86,7 +86,7 @@ public class Restaurant
     }
     
     public boolean reserviere(int gastId, int personenzahl, String zeitpunktString) {
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime zeitpunkt = LocalDateTime.parse(zeitpunktString, format);
         Tisch verfuegbarerTisch = getVerfuegbarenTisch(personenzahl, zeitpunkt);
         if (verfuegbarerTisch == null) return false;
@@ -178,7 +178,7 @@ public class Restaurant
             SELECT * 
             FROM reservierung
             WHERE tischId = %d
-            	AND '%s' > zeitpunkt 
+                AND '%s' > SUBTIME(zeitpunkt, '4:00:00')
                 AND '%s' < ADDTIME(zeitpunkt, '4:00:00');
             """, tischId, zeitpunktString, zeitpunktString
         ));
@@ -201,7 +201,8 @@ public class Restaurant
         db.executeStatement(String.format(
             """
             SELECT * FROM reservierung
-            WHERE DATE(reservierung.zeitpunkt) = '%s';
+            WHERE DATE(reservierung.zeitpunkt) = '%s'
+            ORDER BY reservierung.zeitpunkt;
             """,
             tag
         ));
@@ -276,9 +277,9 @@ public class Restaurant
             if (col == null) continue;
             switch (col.toLowerCase()) {
                 case "id": idxId = i; break;
-                case "gastId": idxGastId = i; break;
+                case "gastid": idxGastId = i; break;
                 case "personenzahl": idxPersonenzahl = i; break;
-                case "tischId": idxTischId = i; break;
+                case "tischid": idxTischId = i; break;
                 case "zeitpunkt": idxZeitpunkt = i; break;
                 default: break;
             }
@@ -344,21 +345,70 @@ public class Restaurant
         List<String> frei = new ArrayList<>(erlaubteSlots);
         return frei;
     }
-public String getOeffnungszeitenAlleTage() { 
-    DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
-    db.executeStatement("SELECT wochentag, oeffnet, schliesst FROM oeffnungszeiten ORDER BY FIELD(wochentag, 'Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag');");
-    QueryResult qr = db.getCurrentQueryResult();
-    if ( qr == null || qr.getRowCount() == 0) {
-        return "Keine Öffnungszeiten gefunden. " ;
+    
+    public String getOeffnungszeitenAlleTage() { 
+        DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
+        db.executeStatement("SELECT wochentag, oeffnet, schliesst FROM oeffnungszeiten ORDER BY FIELD(wochentag, 'Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag');");
+        QueryResult qr = db.getCurrentQueryResult();
+        if ( qr == null || qr.getRowCount() == 0) {
+            return "Keine Öffnungszeiten gefunden. " ;
+        }
+        StringBuilder sb = new StringBuilder();
+        String [][] data = qr.getData();
+    
+        for (String[] row: data) {
+            String tag = row[0];
+            String oeffnet = row[1].substring(0, 5);
+            String schliesst = row[2].substring(0, 5);
+            sb.append(String.format("%s: %s - %s Uhr%n", tag, oeffnet, schliesst));
+        }
+        return sb.toString();
     }
-    StringBuilder sb = new StringBuilder();
-    String [][] data = qr.getData();
+    
+    public List<Reservierung> listeReservierungenFuerGast(int gastId) {
+        DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
+        db.executeStatement(String.format(
+            """
+            SELECT id, tischId, personenzahl, gastId, zeitpunkt
+            FROM reservierung
+            WHERE gastId = %d
+            ORDER BY zeitpunkt DESC;
+            """, gastId
+        ));
+        if (db.getErrorMessage() != null && !db.getErrorMessage().isEmpty()) {
+            System.out.println(db.getErrorMessage());
+        }
+        return queryResultToReservierungen(db.getCurrentQueryResult());
+    }
+    
+    // Löscht eine Reservierung des aktuell eingeloggten Gastes
+    public boolean storniereReservierung(int reservierungId) {
+        if (LoginHandler.angemeldetAls() == null) {
+            System.out.println("Nicht angemeldet");
+            return false;
+        }
+        int gastId = LoginHandler.angemeldetAls().getId();
+    
+        DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
+        db.executeStatement(String.format(
+            """
+            DELETE FROM reservierung
+            WHERE id = %d AND gastId = %d;
+            """, reservierungId, gastId
+        ));
+        if (db.getErrorMessage() != null && !db.getErrorMessage().isEmpty()) {
+            System.out.println(db.getErrorMessage());
+            return false;
+        }
+    
+        // Verifizieren, dass es sie wirklich nicht mehr gibt
+        db.executeStatement(String.format(
+            "SELECT id FROM reservierung WHERE id = %d AND gastId = %d;", reservierungId, gastId
+        ));
+        QueryResult qr = db.getCurrentQueryResult();
+        return qr == null || qr.getRowCount() == 0;
+    }
 
-    for (String[] row: data) {
-        String tag = row[0];
-        String oeffnet = row[1].substring(0, 5);
-        String schliesst = row[2].substring(0, 5);
-        sb.append(String.format("%s: %s - %s Uhr%n", tag, oeffnet, schliesst));
-    }
-    return sb.toString();
+    
+
 }

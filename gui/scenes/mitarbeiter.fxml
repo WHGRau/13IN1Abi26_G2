@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="gui.Controller"
+      prefHeight="400.0" prefWidth="640.0">
+  <children>
+
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Close"/>
+            <SeparatorMenuItem mnemonicParsing="false"/>
+            <MenuItem mnemonicParsing="false" text="Quit"/>
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items><MenuItem mnemonicParsing="false" text="About"/></items>
+        </Menu>
+      </menus>
+    </MenuBar>
+
+    <AnchorPane VBox.vgrow="ALWAYS">
+      <children>
+
+        <Label layoutX="33.0" layoutY="30.0" text="Heutige Reservierungen">
+          <font><Font size="24.0"/></font>
+        </Label>
+
+        <TableView fx:id="mitarbeiterTableView"
+                   layoutX="33.0" layoutY="80.0"
+                   prefWidth="574.0" prefHeight="240.0">
+          <columns>
+            <TableColumn fx:id="colNachname" text="Nachname" prefWidth="220.0"/>
+            <TableColumn fx:id="colTisch" text="Tisch" prefWidth="120.0"/>
+            <TableColumn fx:id="colUhrzeit" text="Uhrzeit" prefWidth="180.0"/>
+          </columns>
+        </TableView>
+
+        <Button layoutX="33.0" layoutY="340.0"
+                prefHeight="40.0" prefWidth="160.0"
+                text="Zurück"
+                onAction="#switchToSceneStart">
+          <font><Font size="18.0"/></font>
+        </Button>
+
+      </children>
+    </AnchorPane>
+
+  </children>
+</VBox>
