@@ -14,4 +14,6 @@ comment5.params=row\ idx
 comment5.target=java.lang.String\ getFromRow(java.lang.String[],\ int)
 comment6.params=
 comment6.target=Benutzerkonto\ angemeldetAls()
-numComments=7
+comment7.params=
+comment7.target=boolean\ istAngemeldet()
+numComments=8
