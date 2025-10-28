@@ -1,6 +1,8 @@
 package gui;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.time.*;
+import java.time.format.*;
 
 import java.util.List;
 
@@ -23,15 +25,83 @@ public class Restaurant
         this.name = name;
          this.reservierteSlots = new ArrayList<>();
     }
+
+        // Holt den Nachnamen aus der Tabelle benutzerkonto anhand der gastId
+    public String getNachnameVonBenutzerkonto(int gastId) {
+        DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
+        db.executeStatement(String.format(
+            "SELECT nachname FROM benutzer WHERE id = %d;", gastId
+        ));
+        QueryResult qr = db.getCurrentQueryResult();
+        if (qr != null && qr.getRowCount() > 0) {
+            String[][] data = qr.getData();
+            if (data != null && data.length > 0 && data[0].length > 0) {
+                return data[0][0];
+            }
+        }
+        return "Unbekannt";
+    }
+
+    // Gibt alle Reservierungen eines Tages im Format Nachname: Uhrzeit, Tisch aus
+    public void printReservierungenAnTag(String tag) {
+        List<Reservierung> reservierungen = getReservierungenAnTag(tag);
+        DateTimeFormatter zeitFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        for (Reservierung r : reservierungen) {
+            String nachname = getNachnameVonBenutzerkonto(r.getGastId());
+            String uhrzeit = r.getZeitpunkt().format(zeitFormatter);
+
+            int tischNummer = -1;
+            if (r.getTisch() != -1) {
+                tischNummer = r.getTisch();
+            } else if (r.getTisch() != -1) {
+                // Optional: Hole die Tischnummer aus der Tabelle TISCH, falls nötig
+                DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
+                db.executeStatement(String.format(
+                    "SELECT nummer FROM tisch WHERE id = %d;", r.getTisch()
+                ));
+                QueryResult qr = db.getCurrentQueryResult();
+                if (qr != null && qr.getRowCount() > 0 && qr.getData() != null && qr.getData().length > 0 && qr.getData()[0].length > 0) {
+                    try {
+                        tischNummer = Integer.parseInt(qr.getData()[0][0]);
+                    } catch (NumberFormatException e) {
+                        tischNummer = r.getTisch(); // Fallback
+                    }
+                } else {
+                    tischNummer = r.getTisch(); // Fallback
+                }
+            }
+
+            System.out.println(nachname + ": " + uhrzeit + ", Tisch " + tischNummer);
+        }
+    }
+
+    public boolean reserviere(int personenzahl, String zeitpunktString) {
+        if (LoginHandler.angemeldetAls() == null) {
+            System.out.println("Nicht angemeldet");
+            return false;
+        }
+        int gastId = LoginHandler.angemeldetAls().getId();
+        return reserviere(gastId, personenzahl, zeitpunktString);
+    }
     
-    public void reserviere(int gastId, int personenzahl, int tischId) {
+    public boolean reserviere(int gastId, int personenzahl, String zeitpunktString) {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime zeitpunkt = LocalDateTime.parse(zeitpunktString, format);
+        Tisch verfuegbarerTisch = getVerfuegbarenTisch(personenzahl, zeitpunkt);
+        if (verfuegbarerTisch == null) return false;
+        reserviere(gastId, personenzahl, verfuegbarerTisch.getId(), zeitpunkt);
+        return true;
+    }
+    
+    public void reserviere(int gastId, int personenzahl, int tischId, LocalDateTime zeitpunkt) {
         DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
 
         db.executeStatement(String.format(
             """
             INSERT INTO reservierung (tischId, personenzahl, gastId, zeitpunkt)
             VALUES (%d, %d, %d, '%s');
-            """, tischId, personenzahl, gastId, LocalDateTime.now().toString()
+            """, tischId, personenzahl, gastId, zeitpunkt.toString()
         ));
         System.out.println(db.getErrorMessage());
     }
@@ -42,7 +112,7 @@ public class Restaurant
         }
         int gastId = LoginHandler.angemeldetAls().getId();
         int personenzahl = reservierung.getPersonenzahl();
-        int tischId = reservierung.getTisch().getId();
+        int tischId = reservierung.getTisch();
         LocalDateTime zeitpunkt = reservierung.getZeitpunkt();
         String zeitpunktString = zeitpunkt.toString();
         
@@ -62,12 +132,30 @@ public class Restaurant
         return reservierung;
     }
     
-    public Tisch getTischMitMindestkapazitaet(int minKapazitaet)  {
+    public Tisch getVerfuegbarenTisch(int minKapazitaet, LocalDateTime zeitpunkt) {
+        java.util.List<Tisch> tische = getTischeMitMindestkapazitaet(minKapazitaet);
+        for (Tisch tisch : tische) {
+            if (istTischVerfuegbar(tisch.getId(), zeitpunkt)) {
+                return tisch;
+            }
+        }
+        
+        return null;
+    }
+    
+    public Tisch getVerfuegbarenTisch(int minKapazitaet, String zeitpunktString) {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime zeitpunkt = LocalDateTime.parse(zeitpunktString, format);
+        return getVerfuegbarenTisch(minKapazitaet, zeitpunkt);
+    }
+    
+    public java.util.List<Tisch> getTischeMitMindestkapazitaet(int minKapazitaet)  {
         DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
         db.executeStatement(String.format(
             """
             SELECT * FROM TISCH
             WHERE kapazitaet >= %d
+            ORDER BY kapazitaet
             """, minKapazitaet
         ));
         
@@ -77,7 +165,47 @@ public class Restaurant
         
         java.util.List<Tisch> tische = queryResultToTische(db.getCurrentQueryResult());
         
-        return tische.get(0);
+        return tische;
+    }
+    
+    public boolean istTischVerfuegbar(int tischId, LocalDateTime zeitpunkt) {
+        DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
+        
+        String zeitpunktString = zeitpunkt.toString();
+        
+        db.executeStatement(String.format(
+            """
+            SELECT * 
+            FROM reservierung
+            WHERE tischId = %d
+            	AND '%s' > zeitpunkt 
+                AND '%s' < ADDTIME(zeitpunkt, '4:00:00');
+            """, tischId, zeitpunktString, zeitpunktString
+        ));
+        
+        if (db.getErrorMessage() != null) {
+            System.out.println(db.getErrorMessage());
+        }
+        
+        if (db.getCurrentQueryResult().getRowCount() > 0) {
+            System.out.println("Tisch bereits geblockt");
+            return false;
+        }
+        
+        System.out.println("Tisch noch frei");
+        return true;
+    }
+
+    public java.util.List<Reservierung> getReservierungenAnTag(String tag) {
+        DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
+        db.executeStatement(String.format(
+            """
+            SELECT * FROM reservierung
+            WHERE DATE(reservierung.zeitpunkt) = '%s';
+            """,
+            tag
+        ));
+        return queryResultToReservierungen(db.getCurrentQueryResult());
     }
     
     public String getName() {
@@ -128,9 +256,64 @@ public class Restaurant
         return result;
     }
     
+    public static java.util.List<Reservierung> queryResultToReservierungen(QueryResult qr) {
+        java.util.List<Reservierung> result = new ArrayList<>();
+        if (qr == null) return result;
+
+        String[] columnNames = qr.getColumnNames();
+        String[][] data = qr.getData();
+        if (columnNames == null || data == null) return result;
+
+        int idxId = -1;
+        int idxGastId = -1;
+        int idxPersonenzahl = -1;
+        int idxTischId = -1;
+        int idxZeitpunkt = -1;
+        
+        // Bestimmung der indizes
+        for (int i = 0; i < columnNames.length; i++) {
+            String col = columnNames[i];
+            if (col == null) continue;
+            switch (col.toLowerCase()) {
+                case "id": idxId = i; break;
+                case "gastId": idxGastId = i; break;
+                case "personenzahl": idxPersonenzahl = i; break;
+                case "tischId": idxTischId = i; break;
+                case "zeitpunkt": idxZeitpunkt = i; break;
+                default: break;
+            }
+        }
+
+        for (String[] row : data) {
+            if (row == null) continue;
+            Reservierung r = new Reservierung();
+
+            r.setId(Integer.parseInt(getFromRow(row, idxId)));
+            r.setGast(getFromRowAsInt(row, idxGastId));
+            r.setPersonenzahl(getFromRowAsInt(row, idxPersonenzahl));
+            r.setTisch(getFromRowAsInt(row, idxTischId));
+            
+            String zeitpunktString = getFromRow(row, idxZeitpunkt);
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime zeitpunkt = LocalDateTime.parse(zeitpunktString, format);
+            r.setZeitpunkt(zeitpunkt);
+            
+            result.add(r);
+        }
+
+        return result;
+    }
+    
     private static String getFromRow(String[] row, int idx) {
-        if (row == null) return null;
+        if (row == null || idx < 0) return null;
         return row[idx];
+    }
+    
+    private static int getFromRowAsInt(String[] row, int idx) {
+        if (row == null || idx < 0) return -1;
+        String wert = row[idx];
+        if (wert == null) return -1;
+        return Integer.parseInt(wert);
     }
 
    public boolean reserviereZeitSlot(String gastName, String slot) {
@@ -159,8 +342,23 @@ public class Restaurant
             "21:00", "21:30"
         );
         List<String> frei = new ArrayList<>(erlaubteSlots);
-        frei.removeAll(reservierteSlots);
         return frei;
     }
+public String getOeffnungszeitenAlleTage() { 
+    DatabaseConnector db = new DatabaseConnector("localhost", 3306, "restaurant_db", "root", "");
+    db.executeStatement("SELECT wochentag, oeffnet, schliesst FROM oeffnungszeiten ORDER BY FIELD(wochentag, 'Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag');");
+    QueryResult qr = db.getCurrentQueryResult();
+    if ( qr == null || qr.getRowCount() == 0) {
+        return "Keine Öffnungszeiten gefunden. " ;
+    }
+    StringBuilder sb = new StringBuilder();
+    String [][] data = qr.getData();
 
+    for (String[] row: data) {
+        String tag = row[0];
+        String oeffnet = row[1].substring(0, 5);
+        String schliesst = row[2].substring(0, 5);
+        sb.append(String.format("%s: %s - %s Uhr%n", tag, oeffnet, schliesst));
+    }
+    return sb.toString();
 }
