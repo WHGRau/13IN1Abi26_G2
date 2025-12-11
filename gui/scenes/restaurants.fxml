@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="gui.Controller"
+      prefHeight="480.0" prefWidth="800.0" spacing="8.0">
+  <children>
+
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Close"/>
+            <SeparatorMenuItem mnemonicParsing="false"/>
+            <MenuItem mnemonicParsing="false" text="Quit"/>
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items><MenuItem mnemonicParsing="false" text="About"/></items>
+        </Menu>
+      </menus>
+    </MenuBar>
+
+    <AnchorPane VBox.vgrow="ALWAYS">
+      <children>
+
+        <!-- Titel -->
+        <Label layoutX="20.0" layoutY="14.0" text="Restaurants">
+          <font><Font size="24.0"/></font>
+        </Label>
+
+        <!-- Info / Hilfetext -->
+        <Label fx:id="restaurantInfoLabel"
+               layoutX="20.0" layoutY="54.0"
+               prefWidth="760.0"
+               style="-fx-text-fill: #444444;"/>
+
+        <!-- Tabelle mit Restaurants -->
+        <TableView fx:id="restaurantTable"
+                   layoutX="20.0" layoutY="90.0"
+                   prefHeight="320.0" prefWidth="760.0"
+                   AnchorPane.topAnchor="90.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="90.0">
+          <columns>
+            <TableColumn fx:id="restaurantNameColumn" text="Name" prefWidth="420.0"/>
+            <TableColumn fx:id="averageRatingColumn" text="Ø Bewertung" prefWidth="160.0"/>
+            <TableColumn fx:id="notesColumn" text="Anmerkungen" prefWidth="180.0"/>
+          </columns>
+          <!-- Platzhalter wenn keine Daten vorhanden -->
+          <placeholder>
+            <Label text="Keine Restaurants vorhanden."/>
+          </placeholder>
+        </TableView>
+
+        <!-- Actions: Buttons für die ausgewählte Restaurant-Zeile -->
+        <HBox layoutX="20.0" layoutY="420.0" spacing="12.0">
+          <children>
+            <Button fx:id="mehrInfosButton"
+                    text="Mehr Infos"
+                    prefWidth="140.0"
+                    onAction="#mehrInfosGedrueckt">
+              <font><Font size="16.0"/></font>
+            </Button>
+
+            <Button fx:id="reservierenButton"
+                    text="Reservieren"
+                    prefWidth="160.0"
+                    onAction="#reservierenGedrueckt">
+              <font><Font size="16.0"/></font>
+            </Button>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Button text="Zurück"
+                    onAction="#switchToSceneStart"
+                    prefWidth="120.0">
+              <font><Font size="14.0"/></font>
+            </Button>
+          </children>
+        </HBox>
+
+      </children>
+    </AnchorPane>
+
+  </children>
+</VBox>

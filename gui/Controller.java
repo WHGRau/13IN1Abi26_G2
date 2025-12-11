@@ -49,11 +49,11 @@ public class Controller {
     // Verbindung vom Controller zum Model
     private Model model;
 
-    private Restaurant restaurant;
+    private Verwaltung restaurant;
 
     public Controller() {
         model = ModelLoader.getModel();
-        restaurant = new Restaurant();
+        restaurant = new Verwaltung();
     }
 
     public void initialize() {
@@ -123,8 +123,26 @@ public class Controller {
             colNachname.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("nachname"));
             colTisch.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("tisch"));
             colUhrzeit.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("uhrzeit"));
+            colPersonenzahl.setCellValueFactory(new PropertyValueFactory<>("personenzahl"));
             refreshMitarbeiterHeute();
         }
+        
+        // --- Restaurants-Übersicht ---
+        if (restaurantTable != null) {
+        
+            restaurantNameColumn.setCellValueFactory(
+                new PropertyValueFactory<>("name")
+            );
+            averageRatingColumn.setCellValueFactory(
+                new PropertyValueFactory<>("avg")
+            );
+            notesColumn.setCellValueFactory(
+                new PropertyValueFactory<>("kommentar")
+            );
+        
+            refreshRestaurants();
+        }
+
     }
 
 
@@ -224,8 +242,7 @@ public class Controller {
 
     @FXML
     public void switchToSceneReservierung(ActionEvent e) {
-        // Dateiname bitte als 'reservierung.fxml' ablegen
-        switchToScene(e, "reservierung");
+        switchToScene(e, "restaurants");
     }
 
     @FXML
@@ -382,17 +399,23 @@ public class Controller {
     @FXML private TableColumn<MitarbeiterRow, String> colNachname;
     @FXML private TableColumn<MitarbeiterRow, Integer> colTisch;
     @FXML private TableColumn<MitarbeiterRow, String> colUhrzeit;
+    @FXML private TableColumn<MitarbeiterRow, Integer> colPersonenzahl;
     
     public static class MitarbeiterRow {
         private final String nachname;
         private final int tisch;
         private final String uhrzeit; // "HH:mm"
-        public MitarbeiterRow(String nachname, int tisch, String uhrzeit) {
-            this.nachname = nachname; this.tisch = tisch; this.uhrzeit = uhrzeit;
+        private final int personenzahl;
+        public MitarbeiterRow(String nachname, int tisch, String uhrzeit, int personenzahl) {
+            this.nachname = nachname; 
+            this.tisch = tisch; 
+            this.uhrzeit = uhrzeit;
+            this.personenzahl = personenzahl;
         }
         public String getNachname() { return nachname; }
         public int getTisch() { return tisch; }
         public String getUhrzeit() { return uhrzeit; }
+        public int getPersonenzahl() { return personenzahl; }
     }
     
     private void refreshMitarbeiterHeute() {
@@ -408,7 +431,8 @@ public class Controller {
             String nachname = restaurant.getNachnameVonBenutzerkonto(r.getGastId());
             int tischNummer = r.getTisch(); // falls du echte „Tischnummern“ statt IDs willst, hier ggf. lookup
             String uhrzeit = r.getZeitpunkt().format(tf);
-            rows.add(new MitarbeiterRow(nachname, tischNummer, uhrzeit));
+            int personenzahl = r.getPersonenzahl();
+            rows.add(new MitarbeiterRow(nachname, tischNummer, uhrzeit, personenzahl));
         }
     
         mitarbeiterTableView.setItems(javafx.collections.FXCollections.observableArrayList(rows));
@@ -427,5 +451,86 @@ public class Controller {
         public String getZeitpunkt() { return zeitpunkt; }
         public int getPersonen() { return personen; }
     }
+    
+    ///////////////////
+    // RESTAURANT-ÜBERSICHT
+    ///////////////////
+    
+    @FXML private TableView<RestaurantRow> restaurantTable;
+    @FXML private TableColumn<RestaurantRow, String> restaurantNameColumn;
+    @FXML private TableColumn<RestaurantRow, Double> averageRatingColumn;
+    @FXML private TableColumn<RestaurantRow, String> notesColumn;
+    
+    @FXML private Label restaurantInfoLabel;
+
+    public static class RestaurantRow {
+    private final int id;
+    private final String name;
+    private final double avg;
+    private final String kommentar;
+
+    public RestaurantRow(int id, String name, double avg, String kommentar) {
+        this.id = id;
+        this.name = name;
+        this.avg = avg;
+        this.kommentar = kommentar;
+    }
+
+    public int getId() { return id; }
+    public String getName() { return name; }
+    public double getAvg() { return avg; }
+    public String getKommentar() { return kommentar; }
+}
+
+    
+    private void refreshRestaurants() {
+        if (restaurantTable == null) return;
+    
+        List<Restaurant> liste = restaurant.getAlleRestaurants(); // musst du in Verwaltung implementieren
+    
+        List<RestaurantRow> rows = new ArrayList<>();
+    
+        for (Restaurant r : liste) {
+    
+            double avg = restaurant.getDurchschnittsBewertungFuerRestaurant(r.getId());
+            String kommentar = "yummy"; // optional, kann auch leer sein
+    
+            rows.add(new RestaurantRow(
+                r.getId(),
+                r.getName(),
+                avg,
+                kommentar == null ? "" : kommentar
+            ));
+        }
+    
+        restaurantTable.setItems(FXCollections.observableArrayList(rows));
+    }
+
+    @FXML
+    public void mehrInfosGedrueckt(ActionEvent e) {
+        RestaurantRow row = restaurantTable.getSelectionModel().getSelectedItem();
+        if (row == null) {
+            restaurantInfoLabel.setText("Bitte ein Restaurant auswählen.");
+            return;
+        }
+    
+        // später Navigation zu z. B. restaurantDetails.fxml
+        // und Übergabe von row.getId()
+        switchToScene(e, "restaurantDetails");
+    }
+    
+    @FXML
+    public void reservierenGedrueckt(ActionEvent e) {
+        RestaurantRow row = restaurantTable.getSelectionModel().getSelectedItem();
+        if (row == null) {
+            restaurantInfoLabel.setText("Bitte ein Restaurant auswählen.");
+            return;
+        }
+    
+        // später Navigation zu reservierung.fxml mit vorausgewähltem Restaurant
+        switchToScene(e, "reservierung");
+    }
+
+    
 }
 
